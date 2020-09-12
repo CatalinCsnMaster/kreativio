@@ -1,0 +1,19 @@
+# Config for sql-migrate
+
+development:
+  dialect: postgres
+  datasource: host=/run/postgresql dbname=shop user=tim sslmode=disable
+  dir: .
+  table: shop_migrations
+
+testing:
+  dialect: postgres
+  datasource: host=localhost dbname=shop_test user=postgres sslmode=disable
+  dir: .
+  table: shop_migrations
+
+production:
+  dialect: postgres
+  datasource: host=db dbname=kreativio user=kreativio password=iethuhu2yoVo sslmode=disable
+  dir: .
+  table: shop_migrations

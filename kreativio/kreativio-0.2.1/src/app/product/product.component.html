@@ -1,0 +1,85 @@
+<br><br><br><br>
+<div class="container mb-4">
+    <div style="color:white;background-color: rgba(8, 8, 19, 0.308);" class="container text-center p-3 mb-3 rounded shadow">
+        <h3 *ngIf="view_data&&view_data.title" >
+            {{view_data.title}}
+        </h3><span style="color: grey;" *ngIf="view_data&&view_data.id"> <small> ID {{view_data.id}}</small></span>
+
+        <div class="container">
+                <div style="background-color: orange;color: black;border-radius: .8em;box-shadow: 3px 0px 9px 3px rgba(0, 0, 0, 0.363);max-width: 19em;" 
+                class="container animated slideInLeft" *ngIf="view_data.promoted"><b>PROMO</b></div>
+
+        <div *ngIf="view_data&&view_data.images" style="background-color: #0808134f;" class="row shadow rounded mb-3 text-center">
+            <div class="col-2 col-xs-2 col-sm-2 col-md-2 col-lg-2" style="display: inline;" *ngFor="let img of view_data.images">
+                <a data-fancybox="gallery" href="{{img.url}}">
+                    <img height="100" class="rounded card bg-light" src="{{img.url}}" alt="{{img.label}}">
+                </a>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col" style="background-color: rgba(8, 8, 19, 0.308);" class="rounded shadow pt-3 pb-3">
+            <mat-tab-group *ngIf="view_data&&view_data.videos!=undefined">
+                <mat-tab *ngFor="let video of view_data.videos; let i=index" [label]="video.label">
+                        <video height="250" width="400" controls autoplay="true" loop>
+                                <source [src]="video.url" type="video/mp4"> 
+                        </video>
+                </mat-tab>
+            </mat-tab-group>
+            
+        </div>
+        <div class="col">
+            <div style="color:white;background-color: rgba(8, 8, 19, 0.308);" class="rounded shadow p-3" *ngIf="view_data&&view_data.description">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h6 style="color:grey;">Descriere produs:</h6>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{view_data.description}}</p>
+                </mat-card-content>
+                <div *ngIf="base_prices.length!=0&&variants.length!=0">
+                <i class="material-icons" matTooltip="Alegeti intai grosimea pentru a putea selecta diametru disponibil.">help</i>
+                &nbsp;
+                <mat-form-field>
+                    <mat-label>Material</mat-label>
+                    <mat-select (selectionChange)="selectBasePrice($event)" [value]="default_price">
+                      <mat-option *ngFor="let item of base_prices" [value]="item">
+                        {{item.getLabel()}} - {{item.getPrice()}} Lei
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Grosime</mat-label>
+                    <mat-select (selectionChange)="selectDiameter($event)" [value]="default_width">
+                      <mat-option *ngFor="let item of sorted_widths" [value]="item">
+                        {{item.width}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Diametru</mat-label>
+                    <mat-select (selectionChange)="estimatePrice($event)" [value]="selected_diameter">
+                      <mat-option *ngFor="let item of available_diameters" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+                &nbsp;
+                <button mat-button> Cantitate: x {{view_data.quantity}}</button>
+                <button mat-icon-button (click)="minus()">-</button>
+                <button mat-icon-button (click)="plus()">+</button><br><mat-divider></mat-divider>
+                <mat-card-actions>
+                    <button mat-raised-button (click)="add_to_cart()"><i class="material-icons">add_shopping_cart</i></button>
+                   
+                   <span class="float-right p-3 rounded shadow" style="font-size: 1.5em;color:black;background-color: orange;"><b style="color:rgb(0, 0, 0);">{{view_data.price_t.toFixed(2)}}</b> 
+                   <small> Lei </small></span>
+                </mat-card-actions>
+            </div>
+        </div>
+    </div>
+
+</div>

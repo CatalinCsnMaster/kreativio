@@ -1,0 +1,44 @@
+<div class="container">
+        <mat-tab-group  (selectedTabChange)="listChange($event)">
+                <mat-tab *ngFor="let tab of tabs; let i=index" [label]="tab.label">
+                    <ng-template mat-tab-label>
+                            <mat-icon>{{tab.icon}}</mat-icon>
+                            {{tab.label}}
+                    </ng-template>
+                  <ng-template matTabContent>
+                      <div class="container">
+                            <mat-card class="mb-3" *ngFor="let order of orders">
+                                <div class="row">
+                                    <div class="col col-xs col-sm col-md"><small class="p-1 rounded shadow">ID: {{order.getId()}}</small> 
+                                    <br><br>
+                                    <span class="p-3" *ngIf="order.getStatus()==0"><i class="material-icons">lock_open</i></span>
+                                    <span class="p-3" *ngIf="order.getStatus()==1"><i class="material-icons">send</i></span>
+                                    <span class="p-3" *ngIf="order.getStatus()==2"><i class="material-icons">lock</i></span>
+                                    </div>
+                                    <div class="col col-xs col-sm col-md" style="border-right: solid 1px lightgrey;"><small>Nume:</small> 
+                                        <mat-divider></mat-divider>
+                                        <br> {{order.getFullName()}}</div>
+                                    <div class="col col-xs col-sm col-md" style="border-right: solid 1px lightgrey;"><small>Email:</small> 
+                                        <mat-divider></mat-divider>
+                                        <br>{{order.getEmail()}}</div>
+                                    <div class="col col-xs col-sm col-md" style="border-right: solid 1px lightgrey;"><small>Telefon:</small> 
+                                        <mat-divider></mat-divider>
+                                        <br>{{order.getPhone()}}</div>
+                                    <div class="col col-xs col-sm col-md" style="border-right: solid 1px lightgrey;"><small>Total:</small> 
+                                        <mat-divider></mat-divider>
+                                        <br>{{order.getSum()}} {{currency}}</div>
+                                    <div class="col col-xs col-sm col-md" style="border-right: solid 1px transparent;"><small>Metoda plata:</small> 
+                                        <mat-divider></mat-divider>
+                                        <br> 
+                                        <span *ngIf="order.getPaymentMethod()==0">Ramburs</span>
+                                        <span *ngIf="order.getPaymentMethod()==1">Transfer bancar</span>
+                                        <span *ngIf="order.getPaymentMethod()==2">Online</span>
+                                    </div>
+                                </div>
+                                <button mat-raised-button (click)="detail(order)">Detalii comanda</button>
+                                </mat-card>
+                      </div>
+                  </ng-template>
+                </mat-tab>
+        </mat-tab-group>
+</div>

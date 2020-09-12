@@ -1,0 +1,78 @@
+<mat-card>
+<div class="row">
+        <div class="col col-xs col-sm col-md"><small class="p-1 rounded shadow">COMANDA ID: {{order.getId()}}</small> 
+        <br><br>
+        <span class="p-3" *ngIf="order.getStatus()==0"><i class="material-icons">lock_open</i></span>
+        <span class="p-3" *ngIf="order.getStatus()==1"><i class="material-icons">send</i></span>
+        <span class="p-3" *ngIf="order.getStatus()==2"><i class="material-icons">lock</i></span>
+        </div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Nume:</small> 
+            <mat-divider></mat-divider>
+            <br> {{order.getFullName()}}</div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Email:</small> 
+            <mat-divider></mat-divider>
+            <br>{{order.getEmail()}}</div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Telefon:</small> 
+            <mat-divider></mat-divider>
+            <br>{{order.getPhone()}}</div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Adresa:</small> 
+            <mat-divider></mat-divider>
+            <br>{{order.getFullAddress()}}</div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Total:</small> 
+            <mat-divider></mat-divider>
+            <br><b>{{order.getSum()}} {{currency}}</b></div>
+        <div class="col col-xs col-sm col-md text-center" style="border-right: solid 1px lightgrey;"><small>Metoda plata:</small> 
+            <mat-divider></mat-divider>
+            <br> 
+            <span *ngIf="order.getPaymentMethod()==0">Ramburs</span>
+            <span *ngIf="order.getPaymentMethod()==1">Transfer bancar</span>
+            <span *ngIf="order.getPaymentMethod()==2">Online</span>
+        </div>
+        <div class="col-12 mb-1">
+            <small>Mesaj:</small>
+            <br>
+            {{order.getMessage()}}
+            <mat-divider></mat-divider>
+        </div>
+        <div class="col-12 mb-1">
+            <span>Articole comandate:</span>
+                <div class="">
+                    <mat-divider></mat-divider>
+                        <div class="row">
+                                
+                            <div class="col text-center" style="border-right: solid 1px lightgrey;"><small>ID</small></div>
+                            <div class="col text-center" style="border-right: solid 1px lightgrey;"><small>Articol</small></div>
+                            <div class="col text-center" style="border-right: solid 1px lightgrey;"><small>Pret</small></div>
+                            <div class="col text-center" style="border-right: solid 1px transparent;"><small>Cantitate</small></div>
+                            <div class="col text-center" style="border-right: solid 1px transparent;"><small>Material</small></div>
+                            <div class="col text-center" style="border-right: solid 1px transparent;"><small>Variant</small></div>
+                        </div>
+                        <mat-divider></mat-divider>
+                    <div class="row" *ngFor="let item of order.getArticlesList(); let i=index">
+                        <mat-divider></mat-divider>
+                     
+                        
+                                
+                            <div class="col text-center" style="border: solid 1px lightgrey;">{{item.getArticleId()}}</div>
+                            <div class="col text-center" style="border: solid 1px lightgrey;">{{item.getTitle()}}</div>
+                            <div class="col text-center" style="border: solid 1px lightgrey;">{{item.getPrice()}} {{currency}}</div>
+                            <div class="col text-center" style="border: solid 1px lightgrey;">{{item.getAmount()}}</div>
+                            <div class="col text-center" style="border: solid 1px lightgrey;"><a *ngIf="item.getDetails()!=undefined">{{item.getDetails().getBasePrice().getLabel()}}, {{item.getDetails().getBasePrice().getPrice()}} Lei</a></div>
+                            <div class="col text-center" style="border: solid 1px lightgrey;"><a *ngIf="item.getDetails()!=undefined">{{item.getDetails().getVariant().getLabelsList()}}</a></div>
+                        
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+        </div>
+        
+        <mat-card>
+        <mat-card-title> <mat-label class="h5">Status comanda:</mat-label></mat-card-title>
+        <mat-radio-group [(ngModel)]="state" class="e-radio-group" aria-label="Order state">
+                <mat-radio-button class="e-radio-button" value="0">Deschisa</mat-radio-button>
+                <mat-radio-button class="e-radio-button" value="1">Trimisa</mat-radio-button>
+                <mat-radio-button class="e-radio-button" value="2">Inchisa</mat-radio-button>
+        </mat-radio-group>
+        </mat-card>
+        </div>
+        <button class="" color="warn" matTooltip="Salveaza modificarile efectuate." (click)="saveOrderWith()" mat-raised-button>Salveaza</button>
+    </mat-card>

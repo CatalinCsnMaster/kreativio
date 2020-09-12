@@ -1,0 +1,160 @@
+version: "3.7"
+
+services:
+
+  ##### DATABASE SECTION
+
+  db:
+    image: postgres:12
+    restart: always
+    shm_size: 256M
+    environment:
+      POSTGRES_USER: kreativio
+      POSTGRES_PASSWORD: iethuhu2yoVo
+    volumes:
+      - "./config/postgres-initdb:/docker-entrypoint-initdb.d:ro"
+      - "./data/postgresql:/var/lib/postgresql/data:rw"
+
+
+  ##### AUTHENTICATOR SECTION
+
+  auth_migrations:
+    image: moapis/authenticator-migrations:0.3.2
+    depends_on:
+      - db
+    restart: on-failure
+    command: ["up", "-config", "/dbconfig.yml", "-env=production"]
+    volumes:
+      - "./config/authenticator/dbconfig.yml:/dbconfig.yml:ro"
+
+  auth_server:
+    image: moapis/authenticator-server:0.3.2
+    depends_on:
+      - db
+      - auth_migrations
+    restart: always
+    command: [ "-config", "/server.json"]
+    volumes:
+      - "./config/authenticator/server.json:/server.json:ro"
+
+  auth_admin:
+    image: moapis/authenticator-admin:0.3.2
+    depends_on:
+      - db
+      - auth_migrations
+    restart: always
+    command: [ "-config", "/admin.json"]
+    volumes:
+      - "./config/authenticator/admin.json:/admin.json:ro"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.auth_admin.rule=Host(`admin.auth.kreativio.ro`)
+      - traefik.http.routers.auth_admin.tls=true
+      - traefik.http.routers.auth_admin.tls.certresolver=le
+      - traefik.http.routers.auth_admin.entrypoints=websecure
+      - traefik.http.services.auth_admin.loadbalancer.server.port=1234
+
+  auth_http:
+    image: moapis/authenticator-httpauth:0.3.2
+    depends_on:
+      - db
+      - auth_server
+    restart: always
+    command: [ "-config", "/httpauth.json"]
+    volumes:
+      - "./config/authenticator/httpauth.json:/httpauth.json:ro"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.auth_http.rule=Host(`auth.kreativio.ro`)
+      - traefik.http.routers.auth_http.tls=true
+      - traefik.http.routers.auth_http.tls.certresolver=le
+      - traefik.http.routers.auth_http.entrypoints=websecure
+      - traefik.http.services.auth_http.loadbalancer.server.port=1235
+
+  ##### SHOP API SECTION
+
+  shop_migrations:
+    image: moapis/shop-migrations:0.4.0
+    depends_on:
+      - db
+    restart: on-failure
+    command: ["up", "-config", "/dbconfig.yml", "-env=production"]
+    volumes:
+      - "./config/shop/dbconfig.yml:/dbconfig.yml:ro"
+
+  shop:
+    image: moapis/shop-server:0.4.0
+    depends_on:
+      - db
+      - shop_migrations
+      - auth_server
+    restart: always
+    command: [ "-config", "/shop.json"]
+    volumes:
+      - "./config/shop/shop.json:/shop.json:ro"
+      - "./config/shop/sandbox.LK1F-GMV1-YWRD-7J6T-QD55.public.cer:/sandbox.LK1F-GMV1-YWRD-7J6T-QD55.public.cer:ro"
+      - "./config/shop/sandbox.LK1F-GMV1-YWRD-7J6T-QD55private.key:/sandbox.LK1F-GMV1-YWRD-7J6T-QD55private.key:ro"
+
+  imageapi:
+    image: moapis/imageapi:kreativio
+    depends_on:
+      - db
+    restart: always
+    env_file:
+      - ./config/shop/imageapi.env
+
+  ##### WEBSITE FRONT-END
+
+  schemasrv:
+    image: moapis/schemasrv:kreativio
+    restart: always
+    env_file: 
+      - ./config/front/environ.env
+    volumes:
+      - ./data/schema:/sch:rw
+
+  traefik:
+    image: traefik:v2.2
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.schema_grpc.address=:15001
+      - --entrypoints.image_grpc.address=:15002
+      - --entrypoints.shop_grpc.address=:15003
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.file.directory=/configuration/
+      - --providers.file.watch=true
+      - --certificatesresolvers.le.acme.email=kreativio@yahoo.com
+      - --certificatesresolvers.le.acme.storage=/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
+    restart: always
+    ports: 
+      - "80:80"
+      - "443:443"
+      - "15001:15001"
+      - "15002:15002"
+      - "15003:15003"
+    volumes:
+      - /run/docker.sock:/run/docker.sock:ro
+      - ./config/traefik:/configuration
+      - ./data/traefik/acme.json:/acme.json
+
+  front:
+    image: moapis/kreativio-front:0.2.1
+    restart: always
+    env_file: 
+      - ./config/front/environ.env
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.front.rule=Host(`kreativio.ro`)
+      - traefik.http.routers.front.tls=true
+      - traefik.http.routers.front.tls.certresolver=le
+      - traefik.http.routers.front.entrypoints=websecure
+      - traefik.http.services.front.loadbalancer.server.port=80
+
+  envoy:
+    image: envoyproxy/envoy:v1.11.2
+    restart: always
+    volumes:
+      - ./config/front/envoy.yaml:/etc/envoy/envoy.yaml

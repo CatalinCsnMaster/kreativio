@@ -1,0 +1,130 @@
+// Copyright (c) 2019, Mohlmann Solutions SRL. All rights reserved.
+// Use of this source code is governed by a License that can be found in the LICENSE file.
+// SPDX-License-Identifier: BSD-3-Clause
+
+syntax = "proto3";
+
+package authenticator;
+
+option go_package = "github.com/moapis/authenticator";
+
+import "google/protobuf/empty.proto";
+
+service Authenticator {
+    // RegisterPwUser registers a new user which can authenticate using a PW.
+    // Server implementation should grant the user only a public role untill verification is complete.
+    // Authorization: Public
+    rpc RegisterPwUser (RegistrationData) returns (RegistrationReply) {}
+    
+    // PasswordAuth authenticates the user by its registered email or username and password.
+    // Authorization: Public
+    rpc AuthenticatePwUser (UserPassword) returns (AuthReply) {}
+
+    // ChangeUserPw changes the password for the user. It needs either the old password or a password reset token.
+    // Authorization: Public
+    rpc ChangeUserPw (NewUserPassword) returns (ChangePwReply) {}
+    
+    // CheckUserExists returns true for the UserID fields which already exists.
+    // Authorization: Basic
+    rpc CheckUserExists (UserData) returns (Exists) {}
+
+    // VerifyUser by previously transmitted (email) verification token
+    // Authorization: Public
+    rpc VerifyUser (AuthReply) returns (AuthReply) {}
+
+    // RefreshToken using an old (and valid!) token.
+    // The user id and its authorization level are verified against the database.
+    // Authorization: Public
+    rpc RefreshToken (AuthReply) returns (AuthReply) {}
+
+    // PublicUserToken generates a token for public and unauthenticated users.
+    // Such token can be used for API access and session tracking.
+    // Authorization: Internal
+    rpc PublicUserToken (PublicUser) returns (AuthReply) {}
+
+    // GetPubKey retrieves registered public keys from the database, identified by KeyIDs.
+    // Authorization: Internal
+    rpc GetPubKey(KeyID) returns (PublicKey) {}
+
+    // ResetUserPW sends a password reset e-mail to a registered user.
+    // The e-mail will contain an URL, as per passed CallBackURL.
+    // The URL will contain a token which (only) can be used for setting a new password.
+    rpc ResetUserPW(UserEmail) returns (google.protobuf.Empty) {}
+}
+
+message UserData {
+    string email = 1;
+    reserved 2;
+}
+
+message StringSlice {
+    repeated string slice = 1;
+}
+
+message CallBackUrl {
+    string base_url = 1;
+    // Query paramater key under which the token will be set in the callback URL.
+    // If empty, it defaults to "token"
+    string token_key = 2;
+    // Other query parameters which need to be added to the callback URL.
+    map<string, StringSlice> params = 3;
+}
+
+message RegistrationData {
+    string email = 1;
+    // Name is optional
+    string name = 2;
+    CallBackUrl url = 3;
+}
+
+message RegistrationReply{
+    int32 user_id = 1;
+}
+
+message AuthReply {
+    // JSON Web Token
+    string jwt = 1;
+}
+
+// UserPassword holds the e-mail of the user and its password.
+message UserPassword {
+    string email = 1;
+    reserved 2;
+    string password = 3;
+}
+
+message NewUserPassword {
+    string email = 1;
+    reserved 2;
+    oneof credential {
+        string old_password = 3;
+        string reset_token = 4;
+    };
+    string new_password = 5;
+}
+
+message ChangePwReply {
+    bool success = 1;
+}
+
+message Exists {
+    bool email = 1;
+    reserved 2;
+}
+
+message PublicUser {
+    string uuid = 1;
+}
+
+message KeyID {
+    int32 kid = 1;
+}
+
+message PublicKey {
+    bytes key = 1;
+}
+
+message UserEmail {
+    string email = 1;
+    CallBackUrl url = 2;
+}

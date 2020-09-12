@@ -1,0 +1,6 @@
+psql:
+  dbname: shop
+  host: /run/postgresql
+  user: tim
+  schema: shop
+  sslmode: disable

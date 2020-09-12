@@ -1,0 +1,110 @@
+<br><br><br><br>
+<div class="container text-center">
+    <div *ngIf="data">        
+     
+        <mat-card *ngIf="language">
+            <h5>Produse</h5><br><mat-divider></mat-divider>
+            <div class="row p-3">
+                <div class="col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    <a style="color:grey;">
+                        {{language.number}}
+                    </a>
+            </div>
+            <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <a style="color:grey;">
+                        {{language.article}}
+                    </a>
+            </div>
+            <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <a style="color:grey;">payment_choice
+                        {{language.quantity}}
+                    </a>
+            </div>
+            <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <a style="color:grey;">
+                        {{language.price}}
+                    </a>
+            </div>
+            </div>
+
+            <div class="row p-1" *ngFor="let item of data; let i = index">
+                <mat-divider></mat-divider>
+                <div class="col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 mt-1" style="color:grey;"><small>{{i+1}}</small></div>
+                <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3 mt-3">{{item.title}}</div>  
+                <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3 mt-3">x {{item.quantity}}</div> 
+                <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3 mt-3"><b style="text-decoration-style: solid;">{{item.price_t.toFixed(2)}}</b>&nbsp;Lei</div>
+            </div>
+      
+        </mat-card>
+        <mat-card class="mt-3 mb-3">
+                <mat-card-title>
+                   <h5>Informatii personale</h5>
+                   
+                </mat-card-title>
+                <mat-divider></mat-divider>
+                <mat-card-content *ngIf="language">
+                    <form [formGroup]="orderinfo">
+                        <mat-form-field>
+                            <mat-label>{{language.fullname}}</mat-label>
+                            <input type="text" formControlName="fullname" matInput>
+                            <mat-icon matSuffix>person</mat-icon>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{language.phone}}</mat-label>
+                            <input type="text" formControlName="phone" matInput>
+                            <mat-icon matSuffix>local_phone</mat-icon>
+                        </mat-form-field><br>
+                        <mat-form-field>
+                            <mat-label>{{language.email}}</mat-label>
+                            <input type="text" formControlName="email" matInput>
+                            <mat-icon matSuffix>email</mat-icon>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <mat-label>{{language.address}}</mat-label>
+                                <input type="text" formControlName="address" matInput>
+                                <mat-icon matSuffix>address</mat-icon>
+                        </mat-form-field><br>
+                        <mat-form-field>
+                            <mat-label>{{language.message}}</mat-label>
+                            <textarea matInput formControlName="message"></textarea>
+                            <mat-icon matSuffix>create</mat-icon>
+                        </mat-form-field>
+                    </form>
+                        <mat-card>
+                            <mat-divider></mat-divider>
+                            {{language.payment_method}}:
+                            <br>
+                            <mat-radio-group (change)="recalc()" aria-label="Select payment" [(ngModel)]="payment_choice">
+                                <mat-radio-button value="0">{{language.payment_on_d}}&nbsp;&nbsp;</mat-radio-button>
+                                <mat-radio-button value="1">{{language.payment_bank}}&nbsp;&nbsp;</mat-radio-button>
+                                <mat-radio-button disabled value="2">{{language.payment_online}}&nbsp;&nbsp;</mat-radio-button>
+                              </mat-radio-group>
+                              
+
+                            <div align="right">
+                                    <div mat-card-title>Total comanda</div><mat-divider></mat-divider>
+                                <ul>
+                                    <li>
+                                        {{language.subtotal}}: {{subtotal.toFixed(2)}} {{currency}}
+                                    </li>
+                                    <li *ngIf="payment_choice==0">
+                                        {{language.delivery}}: {{delivery.toFixed(2)}} {{currency}}
+                                    </li>
+                                    <li>{{language.total}} <b class="h4">{{total.toFixed(2)}}</b> {{currency}}</li>
+                                </ul>
+                            </div>
+                        </mat-card>
+                </mat-card-content>
+                <mat-card-actions *ngIf="language">
+                    <mat-checkbox #agree ></mat-checkbox>&nbsp;&nbsp;&nbsp;{{language.terms_agree_1}}<a href="/static?view=Termeni-si-conditii">{{language.terms}}</a>{{language.terms_agree_2}}<br>
+                        <a routerLink="/cart" color="" style="text-decoration: none;color:white;" mat-raised-button><i class="material-icons">shopping_cart</i>{{language.cart}}</a>
+                        <button *ngIf="!mobilpay_redirect" [disabled]="!agree.checked||!orderinfo.valid" (click)="checkout();" color="accent" mat-raised-button><i class="material-icons">check</i>{{language.order}}</button>
+                        <button *ngIf="mobilpay_redirect" color="warn" mat-raised-button (click)="checkout(true)"> <i class="material-icons">credit_card</i>Plateste online</button>
+                        <div #formWrapper>
+                            <form #redirect action="http://sandboxsecure.mobilpay.ro" method="POST" enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" [(ngModel)]="encKey" name="env_key">
+                                <input type="hidden" [(ngModel)]="encData" name="data">
+                            </form>
+                        </div>
+                    </mat-card-actions>
+        </mat-card>

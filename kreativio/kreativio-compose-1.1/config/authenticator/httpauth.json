@@ -1,0 +1,16 @@
+{
+  "address": "",
+  "port": 1235,
+  "timeout": 10000000000,
+  "server_address": "https://auth.kreativio.ro",
+  "static": "static",
+  "template_glob": "templates/*.html",
+  "data": {
+    "SiteName": "Kreativio Authenticator"
+  },
+  "tls": null,
+  "authserver": {
+    "Host": "auth_server",
+    "Port": 8765
+  }
+}

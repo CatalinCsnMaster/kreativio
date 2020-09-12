@@ -1,0 +1,30 @@
+@import '../node_modules/@angular/material/theming';
+@include mat-core();
+//.custom-theme{  
+    $primary:mat-palette($mat-grey,A100);
+    $accent:mat-palette($mat-orange);
+    $warn:mat-palette($mat-red);
+    $custom-theme: mat-dark-theme($primary,$accent,$warn);
+    body{
+        font-family: 'Kanit', sans-serif;
+    }
+    .custom-theme{
+        button:hover{
+            transition: ease-in-out .5s;
+            box-shadow:rgba(51, 0, 48, 0.37) 1px 1px 9px 5px;
+        }
+    }
+    .light-mode{
+        $primary:mat-palette($mat-purple);
+        $accent:mat-palette($mat-orange);
+        $warn:mat-palette($mat-red);
+        $custom-theme2: mat-light-theme($primary,$accent,$warn);
+        .bg-white2{
+            body{background-color: white;}}
+        @include angular-material-theme($custom-theme2);
+    }
+    .bg-transparent{
+        background-color: transparent;
+    }
+    @include angular-material-theme($custom-theme);
+//}

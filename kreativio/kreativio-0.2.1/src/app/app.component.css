@@ -1,0 +1,14 @@
+
+#sidebar-button{
+    border-top-right-radius:.5em;
+    border-bottom-right-radius:.5em;
+    border:0px;
+    padding:.5em;
+    background-color: rgba(126, 57, 126, 0.301);
+    color: white;
+    font-size:.9em;
+}
+#sidenav-container{
+    height:87vh;
+    background-color: transparent;
+}

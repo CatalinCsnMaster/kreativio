@@ -1,0 +1,39 @@
+http:
+  services:
+    schema_api:
+      loadBalancer:
+        servers:
+          - url: "http://envoy:15001"
+    image_api:
+      loadBalancer:
+        servers:
+          - url: "http://envoy:15002"
+    shop_api:
+      loadBalancer:
+        servers:
+          - url: "http://envoy:15003"
+
+  routers:
+    schema_route:
+      entryPoints:
+        - "schema_grpc"
+      tls: 
+        certResolver: le
+      rule: "Host(`kreativio.ro`)"
+      service: "schema_api"
+
+    image_route:
+      entryPoints:
+        - "image_grpc"
+      tls:
+        certResolver: le
+      rule: "Host(`kreativio.ro`)"
+      service: "image_api"
+
+    shop_route:
+      entryPoints:
+        - "shop_grpc"
+      tls:
+        certResolver: le
+      rule: "Host(`kreativio.ro`)"
+      service: "shop_api" 

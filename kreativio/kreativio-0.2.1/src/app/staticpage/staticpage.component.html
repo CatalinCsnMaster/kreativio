@@ -1,0 +1,8 @@
+<br><br><br><br>
+
+<div *ngIf="view" class="container">
+    <h3>{{view.title}}</h3>
+    <mat-divider></mat-divider>
+    <br>
+    <div [innerHTML]="view.text"></div>
+</div>

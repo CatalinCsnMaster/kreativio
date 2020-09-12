@@ -1,0 +1,122 @@
+<div class="container" *ngIf="language">
+<mat-card>
+    <div mat-card-title>
+        Articol
+    </div>
+    <form [formGroup]="article">
+    <mat-form-field appearance="outline" style="width: 15em;">
+        <mat-label>{{language.article_insert_title}}</mat-label>
+        <input formControlName="title" matInput type="text">
+    </mat-form-field><br>
+    <mat-form-field appearance="outline" style="width: 15em;">
+        <mat-label>{{language.article_insert_description}}</mat-label>
+        <textarea formControlName="description" matInput type="text"></textarea>
+    </mat-form-field><br>
+    <mat-form-field appearance="outline">
+        <mat-label>{{language.article_insert_price}}</mat-label>
+        <input formControlName="price" matInput step="0.10" min="0" type="number">
+    </mat-form-field><br>
+    <mat-form-field>
+        <mat-label>{{language.lbl_adm_select_category}}</mat-label>
+        <mat-select [(value)]="categories_selected_value" [compareWith]="compareCategories" multiple>
+            <mat-option [value]="item" *ngFor="let item of categories">{{item.getLabel()}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Pret material</mat-label>
+        <mat-select [(value)]="selected_base_prices" [compareWith]="compareCategories" multiple>
+            <mat-option [value]="item" *ngFor="let item of base_prices">{{item.getLabel()}} - {{item.getPrice()}} Lei</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br><mat-divider></mat-divider>
+    <div class="container pt-3 pb-3 rounded shadow">
+        <h6>Variante articol</h6>
+        <mat-form-field>
+            <input matInput #thickness placeholder="Grosime" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput #diameter placeholder="Diametru" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput #multiplier placeholder="Multiplicator" type="text">
+        </mat-form-field>
+        <button 
+        [disabled]="thickness.value==''||diameter.value==''||multiplier.value==''"
+        mat-raised-button (click)="addVariant(thickness,diameter,multiplier);thickness.value='';diameter.value='';multiplier.value='';">Adauga varianta</button>
+        <div class="container">
+            <div class="row" *ngIf="variants&&variants.length!=0">
+                <div class="col">Grosime</div>
+                <div class="col">Diametru</div>
+                <div class="col">Multiplicator</div>
+                <div class="col"></div>
+            </div>
+    
+            <div class="row bg-light rounded shadow" *ngFor="let item of variants; let i=index">
+                <div class="col">{{item.labels[0]}}</div>
+                <div class="col">{{item.labels[1]}}</div>
+                <div class="col">{{item.multiplier}}</div>
+                <div class="col">ID: {{item.id}}&nbsp;&nbsp;&nbsp;<button 
+                    mat-icon-button 
+                    (click)="removeVariant(i)" matTooltip="Sterge randul">❌</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><mat-divider></mat-divider>
+    
+    <div class="m-3 rounded shadow">
+        <mat-label class="p-1 bg-light m-1 rounded shadow" >{{language.article_insert_lbl_upl_img}}</mat-label><br>
+    <input #img type="file">
+    <mat-form-field style="width: 15em;">
+            <mat-label>Eticheta imagine</mat-label>
+            <input matInput #label type="text" required>
+    </mat-form-field><small *ngIf="label.value==''"><i>Eticheta necesara pentru upload.</i></small><br>
+    <button [disabled]="label.value==''" mat-raised-button (click)="UploadImage(img,label.value)"><i class="material-icons">cloud_upload</i>Upload imagine</button>
+    <br>
+    <i class="material-icons float-left p-1" matTooltip="Trageti un element inaintea altuia pentru a schimba pozitia lui in lista.">help</i>
+        <div class="row pr-3 pl-3 pt-3 pb-3 rounded" 
+        cdkDropList [cdkDropListData]='images' 
+        #imgContainer='cdkDropList' 
+        (cdkDropListDropped)="dropped($event)" 
+        style="width:19em;background-color: grey;box-shadow: 1px 1px 3px 9px rgba(0, 0, 0, 0.26) inset;">
+            <div class="bg-light shadow rounded col-xs" cdkDrag *ngFor="let img of images;let i=index">
+                <label>{{img.label}}</label><br>
+                <img src="{{img.url}}" height="100" alt="{{img.label}}"><br>
+                <button mat-icon-button (click)="DeleteFile('image',img.url)">x</button>
+            </div>
+        </div>
+    </div>
+
+    <br><mat-divider></mat-divider>
+
+    <div class="m-3 rounded shadow">
+        <mat-label class="p-1 bg-light m-1 rounded shadow">{{language.article_insert_lbl_upl_vid}}</mat-label><br>
+    <input #video type="file">
+    <mat-form-field style="width: 15em;">
+            <mat-label>Eticheta video</mat-label>
+            <input #labelv matInput type="text">
+    </mat-form-field><small *ngIf="labelv.value==''"><i>Eticheta necesara pentru upload.</i></small>
+    <br>
+    <button [disabled]="labelv.value==''" mat-raised-button (click)="UploadVideo(video,labelv.value)"><i class="material-icons">cloud_upload</i>Upload video</button>
+    <br>
+    <i class="material-icons float-left p-1" matTooltip="Trageti un element inaintea altuia pentru a schimba pozitia lui in lista.">help</i>
+        <div class="row pr-3 pl-3 pt-3 pb-3 rounded" cdkDropList [cdkDropListData]='videos' #imgContainer='cdkDropList' (cdkDropListDropped)="dropped($event)" style="width:19em;background-color: grey;box-shadow: 1px 1px 3px 9px rgba(0, 0, 0, 0.26) inset;">
+            <div class="bg-light shadow rounded col-xs" *ngFor="let v of videos;let i=index" cdkDrag>
+                <label>{{v.label}}</label><br>
+                <video height="150" width="150" controls>
+                        <source src="{{v.url}}" type="video/mp4">
+                </video>
+                <button mat-icon-button (click)="DeleteFile('video',v.url)">x</button>
+            </div>
+        </div>
+    </div>
+
+    <br><mat-divider></mat-divider>
+
+    <mat-slide-toggle formControlName="publish">{{language.article_insert_publish}}</mat-slide-toggle>
+    <mat-slide-toggle formControlName="promoted">{{language.article_insert_promote}}</mat-slide-toggle><br>
+    <button color="warn" [disabled]="!article.valid" (click)="save()" mat-raised-button>{{language.article_insert_salveaza}}</button>
+    </form>
+</mat-card>
+</div>

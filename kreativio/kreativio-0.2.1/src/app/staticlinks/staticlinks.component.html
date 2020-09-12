@@ -1,0 +1,7 @@
+<div *ngIf="static_links" class="container">
+    <div style="position: relative;left:-10px;">
+        <div *ngFor="let item of static_links">
+            <a style="text-decoration:none;color:white;" [routerLink]="['/static']"  [queryParams]="{view:item.link}" mat-button><a class="">{{item.label}}</a></a><br>
+        </div>
+    </div>
+</div>

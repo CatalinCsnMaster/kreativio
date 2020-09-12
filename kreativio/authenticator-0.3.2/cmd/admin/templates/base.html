@@ -1,0 +1,50 @@
+{{ define "base" -}}
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Authenticator | {{ .Title }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+{{ template "main" . }}
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+{{- if .Panel }}
+<script src="/static/js/ajax.js"></script>
+<script src="/static/js/jquery.timeago.js" type="text/javascript"></script>
+<script>
+  $(document).ready(function() {
+      $("time.timeago").timeago();
+    });
+</script>
+{{- end -}}
+
+{{ if .Error }}
+<script>
+  $( document ).ready(function(){
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops!',
+      text: '{{ .Error }}',
+      timer: 5000
+})
+  });
+</script>
+{{- end }}
+</body>
+</html>
+{{ end }}

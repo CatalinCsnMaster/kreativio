@@ -1,0 +1,37 @@
+<app-toolbar #toolbar></app-toolbar>
+<mat-sidenav-container #s1 style="height:100vh;overflow: auto;" id="sidenav-container" class="custom-theme bg-transparent" autosize>
+    <mat-sidenav class="shadow" [ngStyle]="{'width': platform.mobile?'45vh':'40vh'}" style="background-color:rgb(40,14,47)" #drawer [mode]="drawer_mode">
+    <br><br><br><br>
+            
+            
+       <button [matBadge]="cart_badge_value" matBadgePosition="after" (click)="openCartDialog()" mat-button>
+               <i class="material-icons">shopping_cart</i>
+               <a *ngIf="language" class="" >&nbsp;{{language.cart}}</a>
+        </button>
+            <br>
+
+        <div style="position: relative;left:0;" *ngFor="let item of categories">
+            <a mat-button [routerLink]="['/list']" [queryParams]="{category:item.getLabel()}">&nbsp;&nbsp;{{item.getLabel()}}</a>
+        </div>
+        <a style="text-decoration:none;color:white;" routerLink="/list" mat-button>
+            <i class="material-icons">list</i>
+            <a style="text-decoration:none;color:white;" *ngIf="language" class="">&nbsp;{{language.all_products}}</a>
+        </a>
+        <br><br><mat-divider></mat-divider><br>
+       <app-staticlinks #staticlinks></app-staticlinks>
+       <div class="container">
+            <div style="position: relative;left:-10px;">
+        <button *ngIf="language" mat-button (click)="openContactDialog()">{{language.info_contact}}</button>
+            </div>
+        <br><br>
+            <div *ngIf="static_schema" class="container text-center">
+                <a *ngFor="let item of static_schema.linkuri_retele_sociale.value" mat-icon-button [href]="item.link" style="font-size: 1.5em;">
+                    <fa name="{{item.sns}}"></fa>
+                </a>
+            </div>
+        </div>           
+    </mat-sidenav>
+    <mat-sidenav-content (scroll)="scrolled($event)" #contentContainer class="bg-transparent" style="background-color: transparent;" autosize>
+            <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

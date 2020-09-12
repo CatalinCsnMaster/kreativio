@@ -1,0 +1,52 @@
+dist: bionic
+
+language: go
+go:
+  - "1.14"
+  - master
+
+services:
+  - postgresql
+  - docker
+
+install:
+  - go get -v github.com/rubenv/sql-migrate/sql-migrate
+  - go mod vendor
+
+before_script:
+  - createuser -s -U postgres authenticator
+  - createdb -U postgres -O authenticator authenticator
+  - createdb -U postgres -O authenticator authenticator_test
+  - ls /home/travis/gopath/bin
+  - (cd migrations && sql-migrate up -env="testing")
+  - (cd migrations && sql-migrate up -env="development")
+
+script:
+  - go test -race ./models -test.config="../sqlboiler_test.yml"
+  - go test -race -coverprofile=server.cov -covermode=atomic -config=config/travis.json ./cmd/server
+  - go test -race -coverprofile=verify.cov -covermode=atomic ./verify
+  - (cd cmd/server && go build && ./server -config config/development.json &)
+  - go test -race -coverprofile=middle.cov -covermode=atomic ./middleware
+  - go test -race -coverprofile=forms.cov -covermode=atomic ./forms
+  - go test -race -coverprofile=httpauth.cov -covermode=atomic ./cmd/httpauth
+
+after_script:
+  - bash <(curl -s https://codecov.io/bash) -f '*.cov'
+
+before_deploy:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: bash deploy.sh latest
+    on:
+      go: "1.14"
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: bash deploy.sh
+    on:
+      go: "1.14"
+      tags: true
+      all_branches: true

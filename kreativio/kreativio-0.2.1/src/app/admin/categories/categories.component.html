@@ -1,0 +1,24 @@
+<div class="container" *ngIf="language">
+    <button mat-raised-button color="warn" (click)="save()">{{language.lbl_adm_save}}</button><br><br>
+
+    <mat-form-field>
+        <mat-label>{{language.lbl_adm_insert_category}}</mat-label>
+            <input #categoryName matInput type="text">
+        </mat-form-field>&nbsp;
+        <button 
+        [disabled]="categoryName.value==''" 
+        mat-raised-button 
+        (click)="newCategory(categoryName);categoryName.value='';">{{language.lbl_adm_apply}}</button>
+    <div cdkDropList 
+    [cdkDropListData]='list' 
+    #categoriesContainer='cdkDropList' 
+    (cdkDropListDropped)="dropped($event)" 
+    class="container pt-1 pb-1 pr-1 pl-1">
+        <div cdkDrag class="container pt-1 pb-1 pr-1 pl-1 mb-1 bg-light rounded shadow text-center" *ngFor="let item of list;let i=index">
+            <small>ID: {{item.id}}</small>
+            <span>&nbsp;<span class="h5">{{item.label}}</span>&nbsp;&nbsp;<button mat-icon-button (click)="openDialog(item.label,i)"><i class="material-icons">edit</i></button><small *ngIf="item.id==0"><i>Nesalvat</i></small></span>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-icon-button *ngIf="item.id==0" (click)="removeField(item.label)">❌</button>
+        </div>
+    </div>
+</div>

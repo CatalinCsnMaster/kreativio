@@ -1,0 +1,35 @@
+<div class="container" *ngIf="language">
+    <mat-slide-toggle (change)="categorySelected($event);" #onlyPromoted>Promovate</mat-slide-toggle>&nbsp;&nbsp;&nbsp;
+    <mat-form-field>
+        <mat-label>{{language.lbl_adm_select_category}}</mat-label>
+        <mat-select #categoriesSelect
+        (selectionChange)="categorySelected($event)"  
+        [formControl]="category_selected">
+            <mat-option [value]="item" *ngFor="let item of categories">{{item.getLabel()}}</mat-option>
+        </mat-select>
+    </mat-form-field>&nbsp;&nbsp;&nbsp;
+    <button (click)="refreshList()" mat-raised-button>{{language.adm_list_refresh}}</button>
+        <div *ngIf="list" class="row">
+            <div *ngFor="let item of list" class="">
+                <div class="text-center col-sm bg-light shadow m-1" style="width: 19em;">
+
+                    <mat-card-title>{{item.title}}</mat-card-title><br>
+                    <img *ngIf="item.images.length!=0" height="100" src="{{item.images[0].url}}" alt="">
+                    <img *ngIf="item.images.length==0" height="100" src="/assets/jewel.png" alt="">
+                    <mat-divider></mat-divider>
+                    <mat-card-content><br>
+                    ID: {{item.id}} <br>
+                    <mat-chip-list aria-label="Fish selection">
+                            <mat-chip *ngIf="!item.published">{{language.adm_list_unpublished}}</mat-chip>
+                            <mat-chip *ngIf="item.published" color="primary" selected>{{language.adm_list_published}}</mat-chip>
+                            <mat-chip *ngIf="item.promoted" color="accent" selected>{{language.adm_list_promote}}</mat-chip>
+                    </mat-chip-list>
+                    </mat-card-content>
+                    <mat-divider></mat-divider><br>
+                    {{item.price}} {{currency}} <br>
+                    <a mat-raised-button [routerLink]="['/admin/article']" [queryParams]="{id:item.id}">Edit</a>
+                    <button mat-raised-button matTooltip="Atentie, un articol sters nu mai poate fi recuperat ulterior, pentru a ascunde debifati publicat in pagina de editare." (click)="deleteArticle(item.id)">Sterge</button>
+                </div>
+            </div>
+        </div>
+</div>

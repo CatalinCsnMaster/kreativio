@@ -1,0 +1,7 @@
+psql:
+    dbname: authenticator_test
+    schema: public
+    host: localhost
+    user: authenticator
+    schema: auth
+    sslmode: disable

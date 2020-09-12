@@ -1,0 +1,32 @@
+{{ define "message" }}
+<html>
+    <head>
+        {{ template "styles" }}
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><b>SENDER DATA</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Full name:</b></td>
+                <td>{{ .Name }}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td>{{ .Email }}</td>
+            </tr>
+            <tr>
+                <td><b>Phone:</b></td>
+                <td>{{ .Phone }}</td>
+            </tr>
+        </table>
+
+        <h3>Message</h3>
+        <p>
+            {{ .Message }}
+        </p>
+    </body>
+</html>
+{{ end }}

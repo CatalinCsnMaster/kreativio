@@ -1,0 +1,62 @@
+{
+  "address": "",
+  "port": 8765,
+  "loglevel": "info",
+  "tls": null,
+  "multidb": {
+    "statslen": 100,
+    "maxfails": 50,
+    "reconnectwait": 10000000000
+  },
+  "pg": {
+    "nodes": [
+      {
+        "host": "db",
+        "port": 5432
+      }
+    ],
+    "params": {
+      "dbname": "kreativio",
+      "user": "kreativio",
+      "password": "iethuhu2yoVo",
+      "sslmode": "disable",
+      "connect_timeout": 30
+    }
+  },
+  "sqlroutines": 1,
+  "bootsrap": [
+    {
+      "Email": "kreativio@yahoo.com",
+      "Name": "Viorel Ghita",
+      "Password": "NiZ0Ut0eijeefi9k",
+      "Groups": [
+        "primary",
+        "admin"
+      ],
+      "Audiences": [
+        "authenticator",
+        "kreativio"
+      ]
+    }
+  ],
+  "jwt": {
+    "issuer": "kreativio.ro",
+    "expiry": 86400000000000
+  },
+  "smtp": {
+    "Host": "mail.usrpro.com",
+    "Port": 587,
+    "Identity": "",
+    "Username": "server@kreativio.ro",
+    "Password": "eiZiug1wooc1",
+    "From": "auth@kreativio.ro",
+    "To": [
+      "contact@kreativio.ro",
+      "kreativio@yahoo.com",
+      "tim@usrpro.com"
+    ],
+    "TemplateGlob": "templates/*.mail.html",
+    "ShopName": "kreativio.ro",
+    "Currency": "RON"
+  }
+}

@@ -1,0 +1,25 @@
+# Config for sql-migrate
+
+development:
+  dialect: postgres
+  datasource: host=localhost dbname=authenticator user=authenticator password=default sslmode=disable
+  dir: .
+  table: auth_migrations
+
+testing:
+  dialect: postgres
+  datasource: host=localhost dbname=authenticator_test user=authenticator sslmode=disable
+  dir: .
+  table: auth_migrations
+
+travis:
+  dialect: postgres
+  datasource: host=localhost dbname=authenticator user=authenticator sslmode=disable
+  dir: .
+  table: auth_migrations
+
+production:
+  dialect: postgres
+  datasource: host=${DB_HOST} dbname=${DB_NAME} user=${DB_USER} password=${DB_PASSWORD} sslmode=${DB_SSLMODE}
+  dir: .
+  table: auth_migrations

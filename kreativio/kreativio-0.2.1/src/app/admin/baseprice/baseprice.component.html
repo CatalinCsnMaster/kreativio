@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="container">
+        <mat-form-field>
+            <input matInput #label placeholder="Nume material" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput #price placeholder="Pret baza material" type="number">
+        </mat-form-field>
+        <button mat-raised-button 
+        [disabled]="label.value==''||price.value==''"
+        (click)="addBasePrice(label,price);label.value='';price.value='';">Adauga</button>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">ID</div>
+            <div class="col">Eticheta</div>
+            <div class="col">Pret</div>
+            <div class="col"></div>
+        </div>
+        <div class="row text-center" *ngFor="let item of baseprices">
+            <div class="col">{{item.getId()}}</div>
+            <div class="col">{{item.getLabel()}}</div>
+            <div class="col"> {{item.getPrice()}} Lei</div>
+            <div class="col"><button mat-icon-button (click)="removeBasePrice(item.getLabel())">Sterge</button></div>
+        </div>
+    </div>
+</div>

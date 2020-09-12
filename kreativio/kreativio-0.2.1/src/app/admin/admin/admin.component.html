@@ -1,0 +1,38 @@
+<mat-toolbar color="" style="display:flex;" class="light-mode bg-light2 fixed-top shadow">
+    <span style="flex: auto;">
+        <mat-slide-toggle #adminSidebarToggle (change)="adminDrawer.toggle()"></mat-slide-toggle>
+        &nbsp;<a mat-raised-button href="/">Inapoi pe sectiunea publica</a>
+    </span>
+    <span style="flex: auto;"></span>
+</mat-toolbar>
+<mat-sidenav-container style="height: 100vh;" class="light-mode bg-light2">
+
+<mat-sidenav #adminDrawer [ngStyle]="{'width': platform.mobile?'50vh':'30vh'}" mode="side">
+
+<br><br><br><br>
+<div *ngIf="language" class="container ml-9">
+       <small style="color: grey;"> Administration section </small>
+<mat-divider></mat-divider><br>
+<button mat-button [routerLink]="['article']" [queryParams]="{id:0}">{{language.lbl_adm_new}}</button><br>
+<mat-divider></mat-divider>
+<button mat-button [routerLink]="['list']">{{language.lbl_adm_list}}</button><br>
+<mat-divider></mat-divider>
+<button mat-button [routerLink]="['kreativio-ro']">{{language.lbl_adm_frontedit}}</button><br>
+<mat-divider></mat-divider>
+<button mat-button [routerLink]="['orders']">{{language.lbl_adm_orders}}</button><br>
+<mat-divider></mat-divider>
+<button mat-button [routerLink]="['categories']">{{language.lbl_adm_categories}}</button><br>
+<mat-divider></mat-divider>
+<button mat-button [routerLink]="['materiale']">{{language.lbl_adm_materials}}</button><br>
+<mat-divider></mat-divider>
+<br>
+
+<button color="warn" (click)="logout()" mat-raised-button>{{language.lbl_adm_logout}}</button><br>
+</div>
+
+</mat-sidenav>
+<mat-sidenav-container>
+    <br><br><br><br>
+    <router-outlet></router-outlet>
+</mat-sidenav-container>
+</mat-sidenav-container>

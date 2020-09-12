@@ -1,0 +1,7 @@
+.col{
+    border-bottom: solid grey 1px;
+    border-left: solid lightgrey 1px;
+    border-right: solid lightgrey 1px;
+    border-top: solid lightgrey 1px;    
+    padding-top:1em;
+}

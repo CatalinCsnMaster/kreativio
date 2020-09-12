@@ -1,0 +1,41 @@
+<mat-toolbar #bar style="display:flexbox;" [ngStyle]="{'background-color':isTop==true?'transparent':'#280e2f','padding-top':isTop==true?'3em':'.3em','padding-bottom':isTop==true?'0em':'.3em'}" 
+class="navbar-1 custom-theme fixed-top animated slideInDown">
+<span style="flex: 1 1 auto;">
+    <mat-slide-toggle color="warn" matTooltip="Toggle sidebar navigation." #sidebarSlideToggle (change)="sidebarToggle.next($event)">
+    </mat-slide-toggle>
+</span>
+<span style="flex: 1 1 auto;"></span>
+<a class="italiano animated" style="font-size:1.9em;color: white;" href="/" [ngStyle]="{'font-size':isTop==true?'4.5em':'1.9em'}">Kreativio.ro</a>
+<span style="flex: 1 0;"></span>
+<span style="flex: 1 1 auto;position: relative;">
+    
+    <mat-form-field class="search-large" color="primary" [ngStyle]="{'margin-top':isTop==true?'1.2em':'0em','width':isTop==true?'65%':'inherit','font-size':isTop==true?'1.3em':'1em'}">
+        <mat-label><small class="italiano h5"><i class="material-icons">
+            search
+            </i></small></mat-label>
+        <input matInput #searchInput (keydown)="search($event)" placeholder="" [formControl]="search_input" type="search">
+    </mat-form-field><button (click)="search_()" style="position:relative;margin-left:-5em;" mat-button> <label class="italiano h4" for="search"> Cauta</label></button>
+    <div id="suggestion-box"
+#suggestionBox 
+[hidden]="getSuggestionBoxStatus()" 
+class="container">
+   <div *ngIf="suggestion_categories&&suggestion_categories.length!=0" style="word-wrap: normal;" class="bg-light rounded shadow">
+    <small>&nbsp;&nbsp;&nbsp;Categorii:</small><br>
+    <span *ngFor="let item of suggestion_categories">    
+    <a style="text-decoration: none;" mat-button [routerLink]="['/list']" [queryParams]="{category:item.getLabel()}">
+           {{item.getLabel()}}
+    </a><br>
+    </span>
+   </div>
+   <div *ngIf="suggestion_articles&&suggestion_articles.length!=0" style="word-wrap: normal;" class="bg-light rounded shadow">
+        <small>&nbsp;&nbsp;&nbsp;Articole:</small><br>
+        <span *ngFor="let item of suggestion_articles">
+        <a style="text-decoration: none;" mat-button [routerLink]="['/product']" [queryParams]="{id: item.getId()}">
+            {{item.getTitle()}}
+        </a><br>
+        </span>
+   </div>
+</div>
+</span>
+
+</mat-toolbar>

@@ -1,0 +1,221 @@
+{
+   "Driver": "postgres",
+   "DataSourceName": "user=postgres dbname=shop sslmode=disable",
+   "MaxDuration": 280,
+   "WordLists": {
+      "ro": "wordlists/ro_RO.txt",
+      "images": "test-image-urls.txt",
+      "videos": "test-video-urls.txt"
+   },
+   "Tables": [
+      {
+         "Name": "shop.categories",
+         "Amount": 10,
+         "Columns": [
+            {
+               "Name": "created_at",
+               "SQLType": "timestamp",
+               "Seed": 10,
+               "Min": 1580000000,
+               "Max": 1580604800
+            },
+            {
+               "Name": "updated_at",
+               "SQLType": "timestamp",
+               "Seed": 11,
+               "Min": 1581000000,
+               "Max": 1581604800
+            },
+            {
+               "Name": "label",
+               "SQLType": "text",
+               "WordListID": "ro",
+               "Seed": 12,
+               "Min": 1,
+               "Max": 3
+            },
+            {
+               "Name": "position",
+               "SQLType": "int",
+               "Seed": 13,
+               "Min": 1,
+               "Max": 10
+            }
+         ]
+      },
+      {
+         "Name": "shop.articles",
+         "Amount": 10000,
+         "Columns": [
+            {
+               "Name": "created_at",
+               "SQLType": "timestamp",
+               "Seed": 1,
+               "Min": 1580000000,
+               "Max": 1580604800
+            },
+            {
+               "Name": "updated_at",
+               "SQLType": "timestamp",
+               "Seed": 2,
+               "Min": 1581000000,
+               "Max": 1581604800
+            },
+            {
+               "Name": "published",
+               "SQLType": "bool",
+               "Seed": 3
+            },
+            {
+               "Name": "title",
+               "SQLType": "text",
+               "WordListID": "ro",
+               "Seed": 4,
+               "Min": 2,
+               "Max": 10
+            },
+            {
+               "Name": "description",
+               "SQLType": "text",
+               "WordListID": "ro",
+               "Seed": 4,
+               "Min": 0,
+               "Max": 300
+            },
+            {
+               "Name": "price",
+               "SQLType": "decimal",
+               "Seed": 5,
+               "Min": 5,
+               "Max": 999999,
+               "Scale": 2
+            },
+            {
+               "Name": "promoted",
+               "SQLType": "bool",
+               "Seed": 6
+            }
+         ]
+      },
+      {
+         "Name": "shop.category_articles",
+         "Amount": 12000,
+         "Columns": [
+            {
+               "Name": "category_id",
+               "SQLType": "int",
+               "Seed": 20,
+               "Min": 1,
+               "Max": 10
+            },
+            {
+               "Name": "article_id",
+               "SQLType": "int",
+               "Seed": 21,
+               "Min": 1,
+               "Max": 10000
+            }
+         ]
+      },
+      {
+         "Name": "shop.images",
+         "Amount": 30000,
+         "Columns": [
+            {
+               "Name": "created_at",
+               "SQLType": "timestamp",
+               "Seed": 31,
+               "Min": 1580000000,
+               "Max": 1580604800
+            },
+            {
+               "Name": "updated_at",
+               "SQLType": "timestamp",
+               "Seed": 32,
+               "Min": 1581000000,
+               "Max": 1581604800
+            },
+            {
+               "Name": "article_id",
+               "SQLType": "int",
+               "Seed": 33,
+               "Min": 1,
+               "Max": 10000
+            },
+            {
+               "Name": "position",
+               "SQLType": "int",
+               "Seed": 34,
+               "Min": 1,
+               "Max": 11
+            },
+            {
+               "Name": "label",
+               "SQLType": "text",
+               "WordListID": "ro",
+               "Seed": 35,
+               "Min": 1,
+               "Max": 3
+            },
+            {
+               "Name": "url",
+               "SQLType": "text",
+               "WordListID": "images",
+               "Seed": 36,
+               "Min": 1,
+               "Max": 1
+            }
+         ]
+      },
+      {
+         "Name": "shop.videos",
+         "Amount": 20000,
+         "Columns": [
+            {
+               "Name": "created_at",
+               "SQLType": "timestamp",
+               "Seed": 41,
+               "Min": 1580000000,
+               "Max": 1580604800
+            },
+            {
+               "Name": "updated_at",
+               "SQLType": "timestamp",
+               "Seed": 42,
+               "Min": 1581000000,
+               "Max": 1581604800
+            },
+            {
+               "Name": "article_id",
+               "SQLType": "int",
+               "Seed": 43,
+               "Min": 1,
+               "Max": 10000
+            },
+            {
+               "Name": "position",
+               "SQLType": "int",
+               "Seed": 44,
+               "Min": 1,
+               "Max": 7
+            },
+            {
+               "Name": "label",
+               "SQLType": "text",
+               "WordListID": "ro",
+               "Seed": 45,
+               "Min": 1,
+               "Max": 3
+            },
+            {
+               "Name": "url",
+               "SQLType": "text",
+               "WordListID": "videos",
+               "Seed": 46,
+               "Min": 1,
+               "Max": 1
+            }
+         ]
+      }
+   ]
+}

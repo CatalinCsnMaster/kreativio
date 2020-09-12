@@ -1,0 +1,39 @@
+<div *ngIf="platform.mobile"><br></div>
+<mdb-carousel [ngStyle]="{'max-width':platform.mobile?'100vh':'50vh'}"class="carousel slide carousel-fade" [animation]="'fade'">
+        <mdb-carousel-item class="text-center" [ngStyle]="{'height':platform.mobile?'40vh':'100vh'}" style="overflow: hidden;align-content: center;vertical-align: middle;" *ngFor="let item of carousel_images">
+          <img  style="display:inline-block;vertical-align: middle;align-self: center;" class="d-block w-100" src="{{item.image}}" alt="slide">
+          <div style="background-color: rgba(0, 0, 0, 0.288);border-radius:1em;" class="shadow carousel-caption animated slideInRight">
+            <h3 class="a1-content h3-responsive italiano h1">{{item.heading}}</h3>
+            <div class="style-a1">
+              <a class="custom-theme italiano h4" style="color:white;z-index:9;" [href]="cleanLink(item.link)">Detalii</a>
+            </div>
+          </div>
+        </mdb-carousel-item>
+</mdb-carousel>
+
+<div class="container mt-1">
+  <div class="text-center">
+    <p class="kanit">{{about_paragraph}}</p>
+  </div>
+  <div class="container">
+    <div *ngIf="promo_data" class="row" style="justify-content: center;">
+      <div *ngFor="let item of promo_data" class="col col-xs col-sm col-md col-lg m-1 pl-0 bg-dark rounded container" style="max-width:19em;justify-content:center;text-align:center;"> 
+        <img *ngIf="item.images.length==0" class="rounded" style="width:12em;" src="/assets/jewel.png" alt="">    
+        <img *ngIf="item.images.length!=0" class="rounded" style="width:19em;" src="{{item.images[0].url}}" alt="">
+            <h4 class="pt-3 pb-5">{{item.title}}</h4>
+            <div style="position: absolute;top:10px;left:-3px;margin: auto;">
+              
+                    <span style="background-color: orange;color: black;border-bottom-right-radius: .8em;border-top-right-radius: .8em;box-shadow: 3px 0px 9px 3px rgba(0, 0, 0, 0.363);" 
+class="p-1" *ngIf="item.promoted">&nbsp;<b>&nbsp;PROMO</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="position: absolute;top:0px;right:5px;"><mat-icon>loyalty</mat-icon></span></span>
+              
+              </div>
+              <div style="position: absolute;bottom:10px;left: 10px;margin: auto;">
+                  <a mat-button [routerLink]="['/product']" [queryParams]="{id: item.id}" style="background-color: rgba(255, 255, 255, 0.062);">Vezi produs</a>  
+                </div>
+                <div class="shadow rounded" style="position: absolute;bottom:10px;right: 10px;margin: auto;background-color: rgba(255, 255, 255, 0.062);">
+                  <a class="p-1 h3">{{item.price}} <small class="h6" style="color:lightgrey;">Lei</small></a>
+                </div>
+        </div>
+  </div>
+</div>
+</div>

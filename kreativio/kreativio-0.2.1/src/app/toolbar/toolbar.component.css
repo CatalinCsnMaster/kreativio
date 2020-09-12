@@ -1,0 +1,31 @@
+.navbar-1{
+    transition: cubic-bezier(0.455, 0.03, 0.515, 0.955) .5s;
+}
+.italiano{
+    transition: cubic-bezier(0.455, 0.03, 0.515, 0.955) 3s;
+}
+#suggestion-box{
+    color:black;
+    padding:.5em;
+    position:absolute;
+    top:110px;
+    left:0px;
+    max-height: 15em;
+    overflow: auto;
+}
+@media only screen and (max-width:500px) {
+    #suggestion-box{
+        position:absolute;
+        top:60px;
+        left:auto;
+        right:0px;
+    }
+}
+@media only screen and (max-height:500px) {
+    #suggestion-box{
+        position:absolute;
+        top:60px;
+        left:auto;
+        right:0px;
+    }
+}

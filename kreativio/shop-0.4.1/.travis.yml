@@ -1,0 +1,49 @@
+dist: bionic
+
+language: go
+go:
+  - "1.14"
+#  - master
+
+services:
+  - postgresql
+  - docker
+
+install:
+  - go get -v ./...
+  - go get -v github.com/rubenv/sql-migrate/sql-migrate
+  - go get -v github.com/moapis/authenticator/cmd/server@v0.3.0
+  - git clone --depth=1 https://github.com/moapis/authenticator.git
+
+before_script:
+  - createuser -U postgres -s authenticator
+  - createdb -U authenticator authenticator
+  - (cd authenticator/migrations && sql-migrate up development)
+  - (cd authenticator/cmd/server && server -config config/development.json &)
+  - psql -c 'create database shop_test;' -U postgres
+  - (cd migrations && sql-migrate up -env="testing")
+
+script:
+  - go test -race -timeout 30s ./models -test.config="../sqlboiler_test.yml"
+  - go test -race -timeout 10s -coverprofile=builder.cov -covermode=atomic ./builder
+  - go test -race -timeout 30s -coverprofile=mobilpay.cov -covermode=atomic ./mobilpay
+  - go test -race -timeout 60s -coverprofile=server.cov -covermode=atomic ./cmd/server
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -f '*.cov'
+
+before_deploy:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
+
+deploy:
+  - provider: script
+    script: bash deploy.sh
+    on:
+      go: "1.14"
+      all_branches: true
+  - provider: script
+    script: bash deploy.sh
+    on:
+      go: "1.14"
+      tags: true
+      all_branches: true

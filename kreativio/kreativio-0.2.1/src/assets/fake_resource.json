@@ -1,0 +1,75 @@
+{
+    "data":[
+        {
+        "id":1,
+        "image":["/assets/Black/P1010001.JPG","/assets/Black/P1010002.JPG","/assets/Black/P1010003.JPG","/assets/Black/P1010004.JPG","/assets/Black/P1010005.JPG","/assets/Black/P1010006.JPG","/assets/Black/P1010007.JPG","/assets/Black/P1010008.JPG","/assets/Black/P1010009.JPG","/assets/Black/P1010010.JPG","/assets/Black/P1010011.JPG"],
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"},{"src":"/assets/demo.mp4","label":"Demo video 2"}],
+        "product":"Lorem ipsum dolor sit amet",
+        "detail":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget mauris. Elit duis tristique sollicitudin nibh sit amet commodo nulla. Volutpat blandit aliquam etiam erat. Volutpat consequat mauris nunc congue nisi vitae suscipit. Risus quis varius quam quisque id diam vel quam. A condimentum vitae sapien pellentesque habitant morbi. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Suscipit tellus mauris a diam maecenas. ",
+        "price":399.90
+        },
+        {
+        "id":2,
+        "image":["/assets/Black/P1010002.JPG"],
+        "product":"Product 2",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget mauris. Elit duis tristique sollicitudin nibh sit amet commodo nulla. Volutpat blandit aliquam etiam erat. Volutpat consequat mauris nunc congue nisi vitae suscipit. Risus quis varius quam quisque id diam vel quam. A condimentum vitae sapien pellentesque habitant morbi. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Suscipit tellus mauris a diam maecenas. ",
+        "price":30.90
+        },
+        {
+        "id":3,
+        "image":["/assets/Black/P1010003.JPG"],
+        "product":"Product 4",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget mauris. Elit duis tristique sollicitudin nibh sit amet commodo nulla. Volutpat blandit aliquam etiam erat. Volutpat consequat mauris nunc congue nisi vitae suscipit. Risus quis varius quam quisque id diam vel quam. A condimentum vitae sapien pellentesque habitant morbi. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Suscipit tellus mauris a diam maecenas. ",
+        "price":19.90
+        },
+        {
+        "id":4,
+        "image":["/assets/Black/P1010004.JPG"],
+        "product":"Product 5",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam id diam maecenas ultricies mi eget mauris. Elit duis tristique sollicitudin nibh sit amet commodo nulla. Volutpat blandit aliquam etiam erat. Volutpat consequat mauris nunc congue nisi vitae suscipit. Risus quis varius quam quisque id diam vel quam. A condimentum vitae sapien pellentesque habitant morbi. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Suscipit tellus mauris a diam maecenas. ",
+        "price":19.90
+        },
+        {
+        "id":5,
+        "image":["/assets/Black/P1010005.JPG"],
+        "product":"Product 6",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"...",
+        "price":19.90
+        },
+        {
+        "id":6,
+        "image":["/assets/Black/P1010006.JPG"],
+        "product":"Product 7",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"...",
+        "price":19.90
+        },
+        {
+        "id":7,
+        "image":["/assets/Black/P1010007.JPG"],
+        "product":"Product 8",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"...",
+        "price":19.90
+        },
+        {
+        "id":8,
+        "image":["/assets/Black/P1010008.JPG"],
+        "product":"Product 9",
+        "video":[{"src":"/assets/demo.mp4","label":"Demo video 1"}],
+        "detail":"...",
+        "price":19.90
+        },
+        {
+        "id":9,
+        "image":["/assets/Black/P1010009.JPG"],
+        "product":"Product 3",
+        "detail":"...",
+        "price":19.90
+        }
+    ]
+}

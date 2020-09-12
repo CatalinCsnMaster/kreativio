@@ -1,0 +1,66 @@
+{
+  "address": "",
+  "port": 8766,
+  "loglevel": "info",
+  "tls": null,
+  "authserver": {
+    "Host": "auth_server",
+    "Port": 8765
+  },
+  "audiences": null,
+  "groups": {
+    "DeleteArticle": [],
+    "ListOrders": [],
+    "SaveArticle": [],
+    "SaveOrder": []
+  },
+  "multidb": {
+    "statslen": 100,
+    "maxfails": 50,
+    "reconnectwait": 1000000000
+  },
+  "pg": {
+    "nodes": [
+      {
+        "host": "db",
+        "port": 5432
+      }
+    ],
+    "params": {
+      "dbname": "kreativio",
+      "user": "kreativio",
+      "password": "iethuhu2yoVo",
+      "sslmode": "disable",
+      "connect_timeout": 30
+    }
+  },
+  "sqlroutines": 1,
+  "smtp": {
+    "Host": "mail.usrpro.com",
+    "Port": 587,
+    "Identity": "",
+    "Username": "server@kreativio.ro",
+    "Password": "eiZiug1wooc1",
+    "From": "shop@kreativio.ro",
+    "To": [
+      "contact@kreativio.ro",
+      "kreativio@yahoo.com",
+      "tim@usrpro.com"
+    ],
+    "TemplateGlob": "templates/*.mail.html",
+    "ShopName": "kreativio.ro",
+    "Currency": "RON"
+  },
+  "http": {
+    "Address": "0.0.0.0:8080",
+    "MobilpayEndpoint": "http://sandboxsecure.mobilpay.ro"
+  },
+  "mobilpay": {
+    "CertificateFile": "/sandbox.LK1F-GMV1-YWRD-7J6T-QD55.public.cer",
+    "PrivateKeyFile": "/sandbox.LK1F-GMV1-YWRD-7J6T-QD55private.key",
+    "Signature": "LK1F-GMV1-YWRD-7J6T-QD55",
+    "ConfirmURL": "https://pay.kreativio.ro/pay/mobilpayConfirm",
+    "ReturnURL": "https://kreativio.ro/sent"
+  },
+  "list_limit": 0
+}

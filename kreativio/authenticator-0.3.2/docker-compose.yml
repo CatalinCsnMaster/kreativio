@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+    pg:
+        image: postgres:12
+        restart: always
+        environment:
+          POSTGRES_PASSWORD: Simple
+          POSTGRES_USER: authenticator
+
+    auth:
+        image: moapis/authenticator-server:${TAG:-latest}
+        restart: on-failure
+        ports:
+            - 127.0.0.1:8765:8765
+
+    httpauth:
+        image: moapis/authenticator-httpauth:${TAG:-latest}
+        restart: on-failure
+        ports:
+            - 127.0.0.1:8080:1235
+
+    admin:
+        image: moapis/authenticator-admin:${TAG:-latest}
+        restart: on-failure
+        ports:
+            - 127.0.0.1:8081:1234
+    
+    migrations:
+        image: moapis/authenticator-migrations:${TAG:-latest}
+        command: [ "up", "--env", "production"]
+        restart: on-failure

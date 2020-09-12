@@ -1,0 +1,8 @@
+psql:
+  dbname: authenticator
+  schema: public
+  host: localhost
+  user: authenticator
+  pass: default
+  schema: auth
+  sslmode: disable

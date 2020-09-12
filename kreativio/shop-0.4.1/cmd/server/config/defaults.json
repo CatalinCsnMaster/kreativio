@@ -1,0 +1,71 @@
+{
+  "address": "127.0.0.1",
+  "port": 8766,
+  "loglevel": "warn",
+  "tls": null,
+  "authserver": {
+    "Host": "127.0.0.1",
+    "Port": 8765
+  },
+  "audiences": null,
+  "groups": {
+    "DeleteArticle": [
+      "primary"
+    ],
+    "ListOrders": [
+      "primary"
+    ],
+    "SaveArticle": [
+      "primary"
+    ],
+    "SaveOrder": [
+      "primary"
+    ]
+  },
+  "multidb": {
+    "statslen": 100,
+    "maxfails": 20,
+    "reconnectwait": 1000000000
+  },
+  "pg": {
+    "nodes": [
+      {
+        "host": "localhost",
+        "port": 5432
+      }
+    ],
+    "params": {
+      "dbname": "shop_test",
+      "user": "postgres",
+      "sslmode": "disable",
+      "connect_timeout": 30
+    }
+  },
+  "sqlroutines": 3,
+  "smtp": {
+    "Host": "test.mailu.io",
+    "Port": 587,
+    "Identity": "",
+    "Username": "admin@test.mailu.io",
+    "Password": "letmein",
+    "From": "admin@test.mailu.io",
+    "To": [
+      "admin@test.mailu.io"
+    ],
+    "TemplateGlob": "templates/*.mail.html",
+    "ShopName": "moapis/shop unit tests",
+    "Currency": "EUR"
+  },
+  "http": {
+    "Address": "0.0.0.0:8080",
+    "MobilpayEndpoint": "http://sandboxsecure.mobilpay.ro"
+  },
+  "mobilpay": {
+    "CertificateFile": "config/sandbox.LK1F-GMV1-YWRD-7J6T-QD55.public.cer",
+    "PrivateKeyFile": "config/sandbox.LK1F-GMV1-YWRD-7J6T-QD55private.key",
+    "Signature": "LK1F-GMV1-YWRD-7J6T-QD55",
+    "ConfirmURL": "https://pay.kreativio.ro/pay/mobilpayConfirm",
+    "ReturnURL": "https://kreativio.ro/sent"
+  },
+  "list_limit": 25
+}

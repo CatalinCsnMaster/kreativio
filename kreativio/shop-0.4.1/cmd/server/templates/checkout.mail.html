@@ -1,0 +1,93 @@
+{{ define "checkout" }}
+<html>
+    <head>
+        {{ template "styles" }}
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><b>Order ID:</b></td>
+                <td>{{ .Id }}</td>
+            </tr>
+            <tr>
+                <td><b>Created:</b></td>
+                <td>{{ .Created }}</td>
+            </tr>
+            <tr>
+                <td><b>Status:</b></td>
+                <td>{{ .Status }}</td>
+            </tr>
+            <tr>
+                <td><b>CLIENT DATA</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Full name:</b></td>
+                <td>{{ .FullName }}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td>{{ .Email }}</td>
+            </tr>
+            <tr>
+                <td><b>Phone:</b></td>
+                <td>{{ .Phone }}</td>
+            </tr>
+            <tr>
+                <td><b>Full address:</b></td>
+                <td>{{ .FullAddress }}</td>
+            </tr>
+            <tr>
+                <td><b>Payment method:</b></td>
+                <td>{{ .PaymentMethod }}</td>
+            </tr>
+        </table>
+
+        <h3>Client's message</h3>
+        <p>
+            {{ .Message }}
+        </p>
+
+        <h3>Articles</h3>
+
+        <table class="articles">
+            <tr>
+                <th>Pos</th>
+                <th>Art. ID</th>
+                <th>Title</th>
+                <th>Details</th>
+                <th>Item price</th>
+                <th>Amount</th>
+                <th>Price</th>
+            </tr>
+            {{ $currency := .Currency }}
+            {{ range $k, $v := .Articles}}
+            <tr>
+                <td class="num">{{ $k }}</td>
+                <td class="num">{{ $v.ArticleId }}</td>
+                <td>{{ $v.Title }}</td>
+                <td>
+                    {{ if $v.Details }}
+                    Base price for "{{ $v.Details.BasePrice.Label }}" at {{ $v.Details.BasePrice.Price }} {{ $currency }}.<br>
+                    Variant {{ range $v.Details.Variant.Labels }}"{{ . }}"; {{ end }}<br>
+                    Multiplies price by {{ $v.Details.Variant.Multiplier }}.
+                    {{ end }}
+                </td>
+                <td class="num">{{ $v.Price }} {{ $currency }}</td>
+                <td class="num">{{ $v.Amount }}</td>
+                <td class="num">{{ $v.Total }} {{ $currency }}</td>
+            </tr>
+            {{ end }}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <th>Sum</th>
+                <td class="num"><b>{{ .Sum }} {{ .Currency }}</b></td>
+            </tr>
+        </table>
+    </body>
+</html>
+{{ end }}

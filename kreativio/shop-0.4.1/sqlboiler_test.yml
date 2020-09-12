@@ -1,0 +1,7 @@
+psql:
+    dbname: shop_test
+    schema: public
+    host: localhost
+    user: postgres
+    schema: shop
+    sslmode: disable
